@@ -10,14 +10,6 @@ import java.util.List;
 @EnableScan
 public interface ProductInfoRepository extends
         CrudRepository<ProductInfo, String> {
-//
-      //List<ProductInfo> findByLastname  (String lastName);
 
-      List<ProductInfo> findById(ProductInfo s);
-//    @Override
-//    default Optional<ProductInfo> findById(String s) {
-//        return null;
-//    }
-
-
+        List<ProductInfo> findById(ProductInfo s);
 }

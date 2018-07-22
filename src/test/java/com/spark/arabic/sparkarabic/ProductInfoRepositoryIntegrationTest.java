@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.spark.arabic.db.UserProfile;
 import com.spark.arabic.sparkarabic.dynamodb.repo.ProductInfoRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,8 +45,11 @@ public class ProductInfoRepositoryIntegrationTest {
     public void setup() throws Exception {
         dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB);
 
+//        CreateTableRequest tableRequest = dynamoDBMapper
+//                .generateCreateTableRequest(ProductInfo.class);
         CreateTableRequest tableRequest = dynamoDBMapper
-                .generateCreateTableRequest(ProductInfo.class);
+                .generateCreateTableRequest(UserProfile.class);
+
         tableRequest.setProvisionedThroughput(
                 new ProvisionedThroughput(1L, 1L));
         amazonDynamoDB.createTable(tableRequest);
