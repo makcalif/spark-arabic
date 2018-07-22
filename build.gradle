@@ -1,0 +1,65 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.3.RELEASE'
+		dbPort = '8000'
+	}
+	repositories {
+		mavenCentral()
+		/*
+		maven {
+			//url 'http://dynamodb-local.s3-website-us-west-2.amazonaws.com/release'
+			//url 'https://mvnrepository.com/artifact/com.amazonaws/DynamoDBLocal'
+		}
+		maven {
+			//url 'https://s3-us-west-2.amazonaws.com/dynamodb-local/release'
+		}*/
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.spark.arabic'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	//compile('com.fasterxml.jackson.core:jackon-databind')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	// https://mvnrepository.com/artifact/com.amazonaws/DynamoDBLocal
+	//testCompile group: 'com.amazonaws', name: 'DynamoDBLocal', version: '1.11.119'
+	//compile 'com.amazonaws:DynamoDBLocal'
+	//compile 'org.springframework.data:spring-data-releasetrain:Hopper-SR10'
+	//compile 'org.springframework.data:spring-data-mongodb'
+
+	//compile 'com.amazonaws:aws-java-sdk-dynamodb:1.10.45'
+	compile 'com.amazonaws:aws-java-sdk-dynamodb'
+
+	compile 'com.jcabi:DynamoDBLocal:2015-07-16'
+	testCompile 'com.jcabi:DynamoDBLocal:2015-07-16'
+	//compile 'com.github.derjust:spring-data-dynamodb:4.2.0'
+	compile 'com.github.derjust:spring-data-dynamodb:5.0.2'
+	compile group: 'com.google.guava', name: 'guava', version: '25.0-jre'
+}
+
+task startDB (type:Exec) {
+	commandLine "bash", "-c",  "java -Djava.library.path=../../dynamoDBLocal/DynamoDBLocal_lib -jar ../../dynamoDBLocal/DynamoDBLocal.jar -sharedDb -inMemory -sharedDb -port ${dbPort}"
+}
+
+//task stopDB (type:Exec) {
+//	commandLine "bash", "-c", "id=\$(docker ps | grep \"tray/dynamodb-local\" | awk '{print \$1}');if [[ \${id} ]]; then docker stop \$id; fi"
+//}
